@@ -1,0 +1,48 @@
+﻿@page
+@model IndexModel
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div >&nbsp;</div>
+        <div >
+            User..........<input type="text" id="userInput" />
+            <div id="userdiv"></div>
+            <br />
+            Message...<input type="text" id="messageInput" />
+            <div id="messagediv"></div>
+            <input type="button" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div >&nbsp;</div>
+        <div >
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+</div>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script>
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
+
+    connection.on("ReceiveMessage", function(myMessage) {
+        var msg = myMessage.message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var encodedMsg = myMessage.user + " says " + msg;
+        var li = document.createElement("li");
+        li.textContent = encodedMsg;
+        document.getElementById("messagesList").appendChild(li);
+    });
+
+    connection.start();
+
+    document.getElementById("sendButton").addEventListener("click", function(event) {
+        var user = document.getElementById("userInput").value;
+        var message = document.getElementById("messageInput").value;
+        connection.invoke("SendMessage", { "User": user, "Message": message});
+    });
+</script>

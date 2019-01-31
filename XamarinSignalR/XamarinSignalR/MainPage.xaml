@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XamarinSignalR"
+             x:Class="XamarinSignalR.MainPage"
+             Padding="20,30,20,20">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Label Text="CodeBangkok Chat with SignalR"
+               HorizontalTextAlignment="Center"/>
+        
+        <Entry Placeholder="User"
+               Grid.Row="1"
+               x:Name="userEntry"/>
+        
+        <Entry Placeholder="Message"
+               Grid.Row="2"
+               x:Name="messageEntry"/>
+        
+        <Button Text="Send Message"
+                x:Name="sendButton"
+                BackgroundColor="Silver"
+                Grid.Row="3"/>
+        <ListView x:Name="chatListView"
+                  Grid.Row="4">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Message}"
+                              Detail="{Binding User}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </Grid>
+</ContentPage>
